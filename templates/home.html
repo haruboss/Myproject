@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}HOME{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div>
+        {% if request.user.customer %}
+        Hello {{ request.user.username}}! <hr>
+      
+        {% endif %}
+        <h3>Welcome To Ecommmerce Store</h3><hr>
+
+
+    </div>
+    <div class="row m-4">
+        
+
+        {% for p in product_list %}
+        <div class="col-md-4 ">
+            <div class="m-4">
+                <a href="{% url 'EShop:productdetail' p.slug %}">
+                    <h3>{{p.title}}</h3>
+                    <img class="img-fluid" src="{{ p.image.url }}"  style="height: 200px;  object-fit: contain;" alt="">
+                    <p>Price: <strike>Rs. {{p.marked_price}} </strike> Rs. {{p.selling_price}} </p>
+                </a>
+                <a href="{% url 'EShop:addtocart' p.id  %}" class="btn btn-primary">Add To Cart</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Registration{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h3>Customer Registration Form</h3><hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-success">Register As a Customer</button>
+                
+            </form>
+            <p>already have a account? <a href="{% url 'EShop:customerlogin' %}">Login Here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
