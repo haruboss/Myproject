@@ -3,31 +3,69 @@
 {% block body %}
 
 <div class="container">
-    <div>
-        {% if request.user.customer %}
-        Hello {{ request.user.username}}! <hr>
-      
+  <div>
+    {% if request.user.customer %}
+    Hello {{ request.user.username}}!
+    <hr>
+
+    {% endif %}
+    <h3>Welcome To Ecommmerce Store</h3>
+    <hr>
+
+
+  </div>
+  <div class="row m-4">
+    {% for p in page_obj %}
+    <div class="col-md-4 ">
+      <div class="m-4">
+        <a href="{% url 'EShop:productdetail' p.slug %}">
+          <h3>{{p.title}}</h3>
+          <img class="img-fluid" src="{{ p.image.url }}" style="height: 200px;  object-fit: contain;" alt="">
+          <p>Price: <strike>Rs. {{p.marked_price}} </strike> Rs. {{p.selling_price}} </p>
+        </a>
+        <a href="{% url 'EShop:addtocart' p.id  %}" class="btn btn-primary">Add To Cart</a>
+      </div>
+    </div>
+    {% endfor %}
+
+    <nav aria-label="...">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"> <a class="page-link" href="?page=1">&laquo; First</a></li>
+
+        <li class="page-item">
+          <span class="page-link"> <a href="?page={{ page_obj.previous_page_number }}">Previous</a> </span>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
         {% endif %}
-        <h3>Welcome To Ecommmerce Store</h3><hr>
 
+        {% for i in page_obj.paginator.page_range %}
+        {% if i == page_obj.number %}
 
-    </div>
-    <div class="row m-4">
-        
+        <li class="page-item active">
+          <span class="page-link">
+            <a>{{i}}</a></span>
+        </li>
+        {% else %}
+        <li class="page-item"> <a class="page-link" href="?page={{i}}">{{i}}</a></li>
 
-        {% for p in product_list %}
-        <div class="col-md-4 ">
-            <div class="m-4">
-                <a href="{% url 'EShop:productdetail' p.slug %}">
-                    <h3>{{p.title}}</h3>
-                    <img class="img-fluid" src="{{ p.image.url }}"  style="height: 200px;  object-fit: contain;" alt="">
-                    <p>Price: <strike>Rs. {{p.marked_price}} </strike> Rs. {{p.selling_price}} </p>
-                </a>
-                <a href="{% url 'EShop:addtocart' p.id  %}" class="btn btn-primary">Add To Cart</a>
-            </div>
-        </div>
+        {% endif %}
         {% endfor %}
-    </div>
+
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        </li>
+
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
 </div>
 
 {% endblock %}

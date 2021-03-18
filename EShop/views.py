@@ -31,7 +31,13 @@ class HomeView(EcomMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_list'] = Product.objects.all().order_by("-id")
+
+        product_list = Product.objects.all().order_by("-id")
+        paginator = Paginator(product_list, 6)  # Show 5 contacts per page.
+        page_number = self.request.GET.get('page')
+        product_list = paginator.get_page(page_number)
+
+        context['page_obj'] = product_list
         return context
 
 
@@ -302,17 +308,15 @@ class CustomerOrderDetailView(DetailView):
 
 class SearchView(TemplateView):
     template_name = 'search.html'
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search_keyword = self.request.GET.get('keyword')
         # search_keyword = self.request.GET['keyword']
-        results = Product.objects.filter(Q(title__icontains=search_keyword) | Q(description__icontains=search_keyword) | Q(selling_price__icontains=search_keyword))   #imp
-        context['results'] =results
+        results = Product.objects.filter(Q(title__icontains=search_keyword) | Q(
+            description__icontains=search_keyword) | Q(selling_price__icontains=search_keyword))  # imp
+        context['results'] = results
         return context
-
-
 
 
 class AdminLoginView(FormView):
