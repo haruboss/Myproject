@@ -31,6 +31,8 @@ urlpatterns = [
     path('admin-orderdetail/<int:pk>/', AdminOrderDetailView.as_view(), name='adminorderdetail'),
     path('admin-orders-list/', AdminOrderListView.as_view(), name='adminorderlist'),
     path('admin-order-<int:pk>-change/', AdminorderStatusChangeView.as_view(), name='adminorderstatuschange'),
-
+    path('admin-product-list/', AdminProductListView.as_view(), name='adminproductlist'),
+    path('admin-product-detail/<int:pk>/', AdminProductDetailView.as_view(), name='adminproductdetail'),
+    path('admin-product-create/', AdminProductCreateView.as_view(), name='adminproductcreate'),
 
 ]

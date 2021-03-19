@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView, View, CreateView, FormView, DetailView, ListView
 from .models import *
-from .forms import Checkoutform, CustomerLoginForm, CustomerRegistrationForm, AdminLoginForm
+from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
@@ -384,3 +384,28 @@ class AdminorderStatusChangeView(AdminRequiredMixin, View):
         order_obj.save()
 
         return redirect(reverse_lazy('EShop:adminorderdetail', kwargs={"pk": self.kwargs['pk']}))
+
+class AdminProductListView(AdminRequiredMixin, ListView):
+    template_name = 'adminpages/adminproductlist.html'
+    queryset = Product.objects.all().order_by('-id')
+    context_object_name = 'allproducts'
+
+
+class AdminProductDetailView(AdminRequiredMixin, DetailView):
+    template_name = 'adminpages/adminproductdetails.html'
+    model = Product
+    context_object_name = 'productdetail'
+
+
+class AdminProductCreateView(AdminRequiredMixin, CreateView):
+    template_name = 'adminpages/adminproductcreate.html'
+    form_class = ProductForm
+    success_url = reverse_lazy('EShop:adminproductlist')
+
+    def form_valid(self, form):
+        prdt = form.save()
+        images = self.request.FILES.getlist('more_images')
+        for i in images:
+            PI = ProductImage.objects.create(product=prdt, image=i)
+            PI.save()
+        return super().form_valid(form)

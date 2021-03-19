@@ -1,0 +1,35 @@
+{% extends 'adminpages/adminbase.html' %}
+
+{% block title %} All Products {% endblock %}
+
+{% block body %}
+<div class="container">
+    <hr>
+
+    <h3 class="my-3">Admin All Product List</h3>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Product Image</th>
+                    <th>Product Title</th>
+                    <th>Product Price</th>
+                    <th>Product Views</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ap in allproducts %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img height="60px" src="{{ap.image.url}}" alt=""></td>
+                    <td> <a href="{% url 'EShop:adminproductdetail' ap.id %}"> {{ap.title}}</a></td>
+                    <td>{{ap.selling_price}}</td>
+                    <td>{{ap.view_count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
