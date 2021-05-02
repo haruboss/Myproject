@@ -21,6 +21,7 @@ django-allauth==0.44.0
 django-cors-headers==3.7.0
 django-crispy-forms==1.9.2
 django-filter==2.4.0
+django-heroku==0.3.1
 django-mysql==3.10.0
 djangorestframework==3.12.2
 djangorestframework-simplejwt==4.6.0
@@ -50,6 +51,7 @@ pickleshare==0.7.5
 Pillow==8.0.1
 pluggy==0.13.1
 prompt-toolkit==3.0.8
+psycopg2==2.8.6
 py==1.10.0
 pycodestyle==2.6.0
 pycparser==2.20
