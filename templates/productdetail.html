@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <h4>TITLE: {{ productdetail.title}} (viewed<sup>{{productdetail.view_count}}</sup>)</h4>
                 <h4>CATEGORY:  {{ productdetail.Category}} </h4>
-                <h5>Price RS. <strike> {{ productdetail.marked_price}}</strike> {{ productdetail.selling_price}} </h5>
+                <h5>Price RS <strike> {{ productdetail.marked_price}}</strike> {{ productdetail.selling_price}} </h5>
                 <a href="{% url 'EShop:addtocart' productdetail.id  %}" class="btn btn-info" >ADD TO CART</a><hr>
 
                 <p>WARRANTY: {{productdetail.warranty}} </p>

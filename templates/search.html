@@ -13,18 +13,19 @@
     </div>
     {% for result in results %}
     <div class="row">
-        
         <div class="col-md-4">
-            
-            <img src="{{ result.image.url }}" class="img-fluid" alt="">
+            <img  src="{{ result.image.url }}" class="img-fluid"  alt="">
         </div>
         <div class="col-md-8">
-         <a href="{% url 'EShop:productdetail' result.slug %}"> {{result.title}}</a><span class="ml-3"> Rs.{{result.selling_price|intcomma}}</span> <hr><br>      
+            <a href="{% url 'EShop:productdetail' result.slug %}"> {{result.title}}</a>
+            <hr><br>
+            <span  class="ml-3 font-weight-bold">Rs {{result.selling_price|intcomma}}</span> <br>
             {{result.description|truncatewords:40}} <br>
-            <p class="mt-2">Return Policy: {{result.return_policy}} </p>  
+            <p class="mt-2">Return Policy: {{result.return_policy}} </p>
             <a href="{% url 'EShop:addtocart' result.id  %}" class="btn btn-primary">Add To Cart</a>
         </div>
-    </div><hr>
+    </div>
+    <hr>
     {% endfor %}
 
 </div>

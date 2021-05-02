@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-md-4">
                 <h3>DETAILS VIEWS</h3><hr>
-                <p><span>Name: </span>{{ customer.full_name }}</p>
-                <p><span>Username: </span>{{ customer.user.username }}</p>
-                <p><span>Email_ID: </span>{{ customer.user.email}}</p>
-                <p><span>Address: </span>{{ customer.address }}</p>
-                <p><span>Joined_on: </span>{{ customer.joined_on }}</p>
+                <p><span class="font-weight-bold">Name: </span>{{ customer.full_name }}</p>
+                <p><span class="font-weight-bold">Username: </span>{{ customer.user.username }}</p>
+                <p><span class="font-weight-bold">Email_ID: </span>{{ customer.user.email}}</p>
+                <p><span class="font-weight-bold">Address: </span>{{ customer.address }}</p>
+                <p><span class="font-weight-bold">Joined_on: </span>{{ customer.joined_on }}</p>
 
             </div>
 
@@ -34,7 +34,7 @@
                                 <td> <a href="{% url 'EShop:customerorderdetail' ord.id %}"> #Order_{{ord.id}}</a></td>
                                 <td>{{ord.total}}</td>
                                 <td>{{ord.created_at | timesince}} ago</td>
-                                <td>{{ord.order_status}}</td>
+                                <td class="text-danger">{{ord.order_status}}</td>
                             </tr>
 
                         {% endfor %}

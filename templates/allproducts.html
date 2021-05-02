@@ -16,7 +16,7 @@ ALL Products
         {% for p in category.product_set.all %}
             <div class="col-md-4">
                 <div class="m-4">
-                <h3><a href="{% url 'EShop:productdetail' p.slug %}">{{p.title}}</h3>
+                <h3><a href="{% url 'EShop:productdetail' p.slug %}">{{p.title|truncatewords:5}}</h3>
                 <img src="{{ p.image.url }}" style="height: 200px; width: 150px;" alt="">
                 <p>Price: <strike>Rs. {{p.marked_price}} </strike> Rs. {{p.selling_price}} </p></a>
                 <a href="{% url 'EShop:addtocart' p.id  %}" class="btn btn-primary">Add To Cart</a>

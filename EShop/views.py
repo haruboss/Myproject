@@ -3,10 +3,14 @@ from django.core.paginator import Paginator
 from django.views.generic import TemplateView, View, CreateView, FormView, DetailView, ListView
 from .models import *
 from .forms import *
+from .utils import password_reset_token
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.conf import settings
+from django.forms import formset_factory
 
 
 class EcomMixin(object):
@@ -33,7 +37,7 @@ class HomeView(EcomMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         product_list = Product.objects.all().order_by("-id")
-        paginator = Paginator(product_list, 6)  # Show 5 contacts per page.
+        paginator = Paginator(product_list, 6)  # Show 6 contacts per page.
         page_number = self.request.GET.get('page')
         product_list = paginator.get_page(page_number)
 
@@ -67,6 +71,7 @@ class ProductDetailView(EcomMixin, TemplateView):
 
 class AddToCartView(EcomMixin, TemplateView):
     template_name = 'addtocart.html'
+    context_object_name = 'p'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -137,6 +142,7 @@ class ManageCartView(EcomMixin, View):
             cp_obj.quantity += 1
             cp_obj.subtotal += cp_obj.rate
             cp_obj.save()
+
             cart_obj.total += cp_obj.rate
             cart_obj.save()
 
@@ -144,21 +150,27 @@ class ManageCartView(EcomMixin, View):
             cp_obj.quantity -= 1
             cp_obj.subtotal -= cp_obj.rate
             cp_obj.save()
+
             cart_obj.total -= cp_obj.rate
             cart_obj.save()
+
             if cp_obj.quantity == 0:
                 cp_obj.delete()
+
         elif action == 'rmv':
             cart_obj.total -= cp_obj.subtotal
             cart_obj.save()
+
             cp_obj.delete()
 
         else:
             pass
+
         return redirect('EShop:mycart')
 
 
 class EmptyCartView(EcomMixin, View):
+
     def get(self, request, *args, **kwargs):
         cart_id = request.session.get('cart_id', None)
         if cart_id:
@@ -166,6 +178,7 @@ class EmptyCartView(EcomMixin, View):
             cart.cartproduct_set.all().delete()
             cart.total = 0
             cart.save()
+
         return redirect("EShop:mycart")
 
 
@@ -179,6 +192,7 @@ class CheckOutView(EcomMixin, CreateView):
         if request.user.is_authenticated and request.user.customer:
             pass
         else:
+            # return redirect('checkout')
             return redirect("/login/?next=/checkout/")
         return super().dispatch(request, *args, **kwargs)
 
@@ -222,6 +236,8 @@ class CustomerRegistrationView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
 
+    # when you are ordering  product but you not the register user,
+    # So this method will help you to redirecting you to the same page after registertion.
     def get_success_url(self):
         if 'next' in self.request.GET:
             next_url = self.request.GET.get('next')
@@ -244,7 +260,6 @@ class CustomerLoginView(FormView):
             login(self.request, usr)
         else:
             return render(self.request, self.template_name, {"form": self.form_class, "error": "invalid credentials"})
-
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -259,6 +274,33 @@ class CustomerLogoutView(View):
     def get(self, request):
         logout(request)
         return redirect("EShop:home")
+
+
+class ResetPasswordView(FormView):
+    template_name = 'resetpassword.html'
+    form_class = ResetPasswordForm
+    success_url = 'resetpassword/?m=s'
+
+    def form_valid(self, form):
+        # get email from user
+        email = form.cleaned_data.get("email")
+        # get current host ip/domain
+        url = self.request.META['HTTP_HOST']
+        # get customer and then user
+        customer = Customer.objects.get(user__email=email)
+        user = customer.user
+        # send mail to the user with email
+        text_content = 'Please Click the link below to reset your password. '
+        html_content = url + "/password-reset/" + email + \
+            "/" + password_reset_token.make_token(user) + "/"
+        send_mail(
+            'Password Reset Link | Django Ecommerce',
+            text_content + html_content,
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
+        return super().form_valid(form)
 
 
 class AboutView(EcomMixin, TemplateView):
@@ -305,6 +347,8 @@ class CustomerOrderDetailView(DetailView):
             return redirect("/login/?next=/profile/")
         return super().dispatch(request, *args, **kwargs)
 
+# serching views
+
 
 class SearchView(TemplateView):
     template_name = 'search.html'
@@ -312,11 +356,16 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search_keyword = self.request.GET.get('keyword')
+
         # search_keyword = self.request.GET['keyword']
-        results = Product.objects.filter(Q(title__icontains=search_keyword) | Q(
-            description__icontains=search_keyword) | Q(selling_price__icontains=search_keyword))  # imp
+        results = Product.objects.filter(Q(title__icontains=search_keyword) |
+                                         Q(description__icontains=search_keyword) | Q(selling_price__icontains=search_keyword))  # imp
+
         context['results'] = results
+
         return context
+
+    # admiin pages
 
 
 class AdminLoginView(FormView):
@@ -385,6 +434,7 @@ class AdminorderStatusChangeView(AdminRequiredMixin, View):
 
         return redirect(reverse_lazy('EShop:adminorderdetail', kwargs={"pk": self.kwargs['pk']}))
 
+
 class AdminProductListView(AdminRequiredMixin, ListView):
     template_name = 'adminpages/adminproductlist.html'
     queryset = Product.objects.all().order_by('-id')
@@ -409,3 +459,13 @@ class AdminProductCreateView(AdminRequiredMixin, CreateView):
             PI = ProductImage.objects.create(product=prdt, image=i)
             PI.save()
         return super().form_valid(form)
+
+    # def MyProductForm(self, request):
+    #     ProductFormSet = formset_factory(ProductForm, extra=3)
+    #     if request.method == 'POST':
+    #         formset = ProductFormSet(request.POST, request.FILES)
+    #         if formset.is_valid():
+    #             formset.save()
+    #         else:
+    #             formset = ProductFormSet()
+    #     return render(self.request, self.template_name, {'form': formset})

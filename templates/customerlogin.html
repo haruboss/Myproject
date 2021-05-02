@@ -6,17 +6,23 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 mx-auto">
-            <h3>Customer Login Form</h3><hr>
+            <h3 class="text-center mt-2">Customer Login Form</h3>
+            <hr>
+            {% if error %}
+            <li style="color: red;">{{error}}</li>
+            {% endif %}
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
-                <!-- <input type="submit" value="login"> -->
                 <button class="btn btn-success">Login As a Customer</button>
-                {% if error %}
-                <li style="color: red;">{{error}}</li>
-                {% endif %}
             </form>
-            <p>or dont have account?  <a href="{% url 'EShop:customerregistration' %}{% if request.GET.next%}?next={{request.GET.next}}{% endif %}">Register here</a> </p>
+
+            <p class="mt-2"> <span>Forget Password? <a href="{% url 'EShop:resetpassword' %}"> Reset Here</a></span>
+                <span class="ml-4">or don't have account? <a
+                        href="{% url 'EShop:customerregistration' %}{% if request.GET.next%}?next={{request.GET.next}}{% endif %}">
+                        Register
+                        here</a></span>
+            </p>
         </div>
     </div>
 </div>

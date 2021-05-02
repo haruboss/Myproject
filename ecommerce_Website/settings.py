@@ -122,6 +122,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIR = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'static_cdn'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 8000
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""

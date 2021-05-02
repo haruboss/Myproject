@@ -10,8 +10,8 @@
                 <img src="{{productdetail.image.url }}"  class="img-fluid" alt="">
                 <div class="row">
                     {% for pi in productdetail.productimage_set.all %}
-                    <div class="col-md-4">
-                        <img class="image-fluid" style="height: 100px;" src="{{ pi.image.url }}" alt="">
+                    <div class="col-md-4"><a href="{{ pi.image.url }}" target="_blank" >
+                        <img class="image-fluid" style="height: 100px;" src="{{ pi.image.url }}" alt=""></a>
                     </div>
                     {% endfor %}
                 </div>
