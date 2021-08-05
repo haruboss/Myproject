@@ -3,9 +3,11 @@
 {% block title %} Add To Cart {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h3>product added to cart succesful.</h3>
-        <ul><li{{p.name}}</li></ul>
+    <div class="addtocart-center">
+        <pre class="text-center">
+            <h2>Added in your cart !!</h2><h4><a class="primary" href="{% url 'EShop:home' %}">Explore more Products</a></h4><h4> <a class="text-success" href="{% url 'EShop:mycart' %}">GO to cart & checkout</a></h4>
+        </pre>
+        
     </div>
 
 {% endblock %}

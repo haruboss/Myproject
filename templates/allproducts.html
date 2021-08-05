@@ -5,23 +5,58 @@ ALL Products
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <h3>
-        All Products
-    </h3>
-    <hr>
+
+
+<!-- <h2 class="deal-title-text">DEALS OF THE DAY</h2>
+<div class="box">
+    {% for p in page_obj %}
+    <div class="card" style="width: 18rem; height: 25rem;">
+        <a target="blank" href="{% url 'EShop:productdetail' p.slug %}">
+            <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;"
+                alt="product image">
+            <div class="card-body" style="height: 15rem;">
+                <h5 class="card-title text-dark" style="height: 10rem;">{{ p.title}}</h5>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+</div> -->
+
+
+
+
+
+<!-- <div class="container"> -->
     {% for category in allcategories %}
-    <h3>{{category.title}}</h3><hr>
+    <h2 class="deal-title-text mt30 text-uppercase">{{category.title}}</h2><hr>
     <div class="row">
         {% for p in category.product_set.all %}
-            <div class="col-md-4">
+
+        <div class="card p0 mx-auto my-5" style="width: 18rem; height: 25rem;">
+            <a target="blank" href="{% url 'EShop:productdetail' p.slug %}">
+                <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 8rem; object-fit: contain;"
+                    alt="product image">
+                <div class="card-body p0 mt-4" style="height:5rem;">
+                    <h5 class="card-title text-dark p0" style="height: 7rem;">{{ p.title|truncatewords:8}}</h5>
+                </div>
+                    <p class="card-body p0 text-normal" style="height: 8rem;">
+                        {{p.description|truncatewords:20}}
+                    </p>
+                    <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;" class="btn addtocart-btn">Add To Cart</a>
+            </a>
+        </div>
+
+
+
+            <!-- <div class="col-md-4">
                 <div class="m-4">
                 <h3><a href="{% url 'EShop:productdetail' p.slug %}">{{p.title|truncatewords:5}}</h3>
                 <img src="{{ p.image.url }}" style="height: 200px; width: 150px;" alt="">
                 <p>Price: <strike>Rs. {{p.marked_price}} </strike> Rs. {{p.selling_price}} </p></a>
                 <a href="{% url 'EShop:addtocart' p.id  %}" class="btn btn-primary">Add To Cart</a>
                 </div>
-            </div>
+            </div> -->
             {% endfor %}
 
 

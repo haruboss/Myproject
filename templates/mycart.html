@@ -3,15 +3,20 @@
 {% block title %}MyCart{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container mt-3">
     <div class="row">
-        <div class="col-md-8">
-            <h4>Items in my cart</h4>
-            <hr>
-            <table class="table">
+        <div class="mx-auto col-md-8">
+            <ul class="billing p0">
+                <li class="billing-detail">
+                    <h4>Items in my cart</h4>
+                </li>
+                <li class="cart-update"><a style="color: tomato;" href="{% url 'EShop:emptycart' %}">Trash Cart</a></li>
+            </ul>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>S.N.</th>
+                        <th>Image</th>
                         <th>Products</th>
                         <th>Rate</th>
                         <th>Quantity</th>
@@ -22,33 +27,38 @@
                 <tbody>
                     {% for cp in cart.cartproduct_set.all %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{cp.product.title}}</td>
-                        <td>{{cp.rate}}</td>
-                        <td>{{cp.quantity}}</td>
-                        <td>{{cp.subtotal}}</td>
-                        <td>
-                            <a href="{% url 'EShop:managecart' cp.id %}?action=inc" class="btn btn-primary">+</a>
-                            <a href="{% url 'EShop:managecart' cp.id %}?action=dcr" class="btn btn-warning">-</a>
-                            <a href="{% url 'EShop:managecart' cp.id %}?action=rmv" class="btn btn-danger">*</a>
-                        </td>
+                            <td>{{forloop.counter}}</td>
+                            <td>
+                                <img class="img-fluid" src="{{cp.product.image.url}}" style="height: 100px; object-fit: contain;" alt="">
+                            </td>
+                            <td>{{cp.product.title}}</td>
+                            <td>{{cp.rate}}</td>
+                            <td>{{cp.quantity }}</td>
+                            <td>{{cp.subtotal}}</td>
+                            <td><div class="text-center">
+                                <a href="{% url 'EShop:managecart' cp.id %}?action=dcr">
+                                    <span class="btn btn-warning dcr">-</span>
+                                </a><br>
+                                
+                                <a href="{% url 'EShop:managecart' cp.id %}?action=inc">
+                                    <span class="inc btn btn-success">+</span>
+                                </a><br>
+                                <a href="{% url 'EShop:managecart' cp.id %}?action=rmv">
+                                    <span class="rmv btn btn-danger">*</span>
+                                </a>
+                            </div>
+                            </td>
                     </tr>
                     {% endfor %}
-                    <tr>
-                        <th colspan="4" class=" text-right">Total</th>
-                        <th>RS. {{cart.total}}</th>
-                        {% if cart.cartproduct_set.all %}
-                        <th><a href="{% url 'EShop:emptycart' %}">Empty Cart</a></th>
-                       
-                    </tr>
-                    <tr>
-                        <th><a class="btn btn-info" href="{% url 'EShop:checkout' %}">Checkout</a></th>
-                        {% endif %}
-                    </tr>
+
                 </tbody>
             </table>
+            {% if cart.cartproduct_set.all %}
+            <h4>Total RS. {{cart.total}} 
+            <a class="ml-5" href="{% url 'EShop:checkout' %}"><button class="btn btn-lg">Go to Checkout</button></a>
+            </h4>
+            {% endif %}
         </div>
     </div>
 </div>
-
 {% endblock %}

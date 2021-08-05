@@ -37,11 +37,27 @@ class HomeView(EcomMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         product_list = Product.objects.all().order_by("-id")
-        paginator = Paginator(product_list, 6)  # Show 6 contacts per page.
-        page_number = self.request.GET.get('page')
-        product_list = paginator.get_page(page_number)
+
+        mobile_category = Product.objects.filter(category__title__icontains='mobiles, computer')
+        electronic_category = Product.objects.filter(category__title__icontains='Electronics Products')
+        fashion_category = Product.objects.filter(category__title__icontains='clothings and fashion')
+        home_category = Product.objects.filter(category__title__icontains='Home, Kitchen, Pets')
+
+        top_category = Product.objects.filter(selling_price__gt=999)
+        dealOfTheDay_category = Product.objects.filter(selling_price__lt=999)
+
 
         context['page_obj'] = product_list
+
+        context['page_mobile'] = mobile_category
+        context['page_electronic'] = electronic_category
+        context['page_fashion'] = fashion_category
+        context['page_home'] = home_category
+
+        context['page_top'] = top_category
+        context['page_deal'] = dealOfTheDay_category
+
+
         return context
 
 
@@ -112,6 +128,7 @@ class AddToCartView(EcomMixin, TemplateView):
             )
             cart_obj.total += product_obj.selling_price
             cart_obj.save()
+        redirect('EShop:mycart')
 
         return context
 
@@ -193,7 +210,7 @@ class CheckOutView(EcomMixin, CreateView):
             pass
         else:
             # return redirect('checkout')
-            return redirect("/login/?next=/checkout/")
+            return redirect("/login/?next=/Checkout/")
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

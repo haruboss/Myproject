@@ -1,33 +1,41 @@
 {% extends 'base.html' %}
 
-{% block title %} {{product.title}}{% endblock %}
+{% block title %} {{productdetail.title}}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h3 class="my-3">{{productdetail.title}} </h3><hr>
+    <div class="">
+        <!-- <h3 class="my-3">{{productdetail.title}} </h3><hr> -->
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6 product-image">
                 <img src="{{productdetail.image.url }}"  class="img-fluid" alt="">
                 <div class="row">
                     {% for pi in productdetail.productimage_set.all %}
-                    <div class="col-md-4">
-                        <img class="image-fluid" style="height: 100px;" src="{{ pi.image.url }}" alt="">
+                    <div class="col-md-6 product-image">
+                        <img class="image-fluid" height="450px" width="350px" src="{{ pi.image.url }}" alt="">
                     </div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-8">
-                <h4>TITLE: {{ productdetail.title}} (viewed<sup>{{productdetail.view_count}}</sup>)</h4>
-                <h4>CATEGORY:  {{ productdetail.Category}} </h4>
-                <h5>Price RS <strike> {{ productdetail.marked_price}}</strike> {{ productdetail.selling_price}} </h5>
-                <a href="{% url 'EShop:addtocart' productdetail.id  %}" class="btn btn-info" >ADD TO CART</a><hr>
-
-                <p>WARRANTY: {{productdetail.warranty}} </p>
-                <p>RETURN POLICY: {{productdetail.return_policy}} </p>
+            <div class="col-md-6">
+                <h4 class="mt20">{{ productdetail.category}} </h4>
+                <h4 class="fw400">{{ productdetail.title}} (viewed {{productdetail.view_count}})</h4>
                 <hr>
-                <p>
+                <h5 class="price">RS. {{ productdetail.selling_price}} <strike> RS. {{ productdetail.marked_price}}</strike> </h5>
+                <div class="green-text">
+                    inclusive of all taxes
+                </div>
+                <button class="btn btn-lg">
+                <a href="{% url 'EShop:addtocart' productdetail.id  %}">ADD TO CART</a>
+                </button>
+                <hr>
+
+                <h4 class="fw400">WARRANTY: {{productdetail.warranty}} </h4>
+                <h4 class="fw400">RETURN POLICY: {{productdetail.return_policy}} </h4>
+                <br>
+                <h4 class="mb20">Product Details</h4>
+                <h4 class="fw300 lh mr-4">
                     {{productdetail.description}}
-                </p>
+                </h4>
             </div>
         </div>
         
