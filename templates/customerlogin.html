@@ -14,7 +14,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
-                <button class="btn btn-success">Login As a Customer</button>
+                <button class="btn btn-lg text-center">Login As a Customer</button>
             </form>
 
             <p class="mt-2"> <span>Forget Password? <a href="{% url 'EShop:resetpassword' %}"> Reset Here</a></span>

@@ -55,15 +55,12 @@
     <div class="card" style="width: 18rem; height: 25rem;">
         <a target="blank" href="{% url 'EShop:productdetail' p.slug %}">
       <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;" alt="product image">
-      <div class="card-body" style="height: 15rem;">
+      <div class="card-body" style="height: 10rem;">
         <h5 class="card-title text-dark" style="height: 10rem;"  >{{ p.title}}</h5>
-        <!-- <p class="card-text" >Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p> -->
-        <!-- <div style="height: 5rem;">
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div> -->
       </div>
       </a>
+          <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;" class="btn-center btn addtocart-btn font-weight-bold">Add To Cart</a>
+
     </div>
     {%  endfor %}
    
@@ -77,8 +74,10 @@
         <a href="{% url 'EShop:productdetail' p.slug %}">
       <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;"
         alt="product image">
-      <div class="card-body" style="height: 15rem;">
-        <h5 class="card-title text-dark" style="height: 10rem;">{{ p.title}}</h5>
+      <div class="card-body" style="height: 10rem;">
+        <h5 class="card-title text-dark">{{ p.title}}</h5>
+
+         
         <!-- <p class="card-text" >Some quick example text to build on the card title and make up the bulk of the card's content.
             </p> -->
         <!-- <div style="height: 5rem;">
@@ -86,6 +85,9 @@
         </div> -->
       </div>
       </a>
+      <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;"
+        class="btn-center btn addtocart-btn font-weight-bold">Add To Cart</a>
+
     </div>
     {% endfor %}
   </div>
@@ -98,8 +100,8 @@
       <a href="{% url 'EShop:productdetail' p.slug %}">
         <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;"
           alt="product image">
-        <div class="card-body" style="height: 15rem;">
-          <h5 class="card-title text-dark" style="height: 10rem;">{{ p.title}}</h5>
+        <div class="card-body" style="height: 10rem;">
+          <h5 class="card-title text-dark">{{ p.title}}</h5>
           <!-- <p class="card-text" >Some quick example text to build on the card title and make up the bulk of the card's content.
           </p> -->
           <!-- <div style="height: 5rem;">
@@ -107,6 +109,8 @@
           </div> -->
         </div>
       </a>
+      <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;"
+        class="btn-center btn addtocart-btn font-weight-bold">Add To Cart</a>
     </div>
     {% endfor %}
   
@@ -120,8 +124,8 @@
       <a href="{% url 'EShop:productdetail' p.slug %}">
         <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;"
           alt="product image">
-        <div class="card-body" style="height: 15rem;">
-          <h5 class="card-title text-dark" style="height: 10rem;">{{ p.title}}</h5>
+        <div class="card-body" style="height: 10rem;">
+          <h5 class="card-title text-dark">{{ p.title}}</h5>
           <!-- <p class="card-text" >Some quick example text to build on the card title and make up the bulk of the card's content.
           </p> -->
           <!-- <div style="height: 5rem;">
@@ -129,6 +133,9 @@
           </div> -->
         </div>
       </a>
+      <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;"
+        class="btn-center btn addtocart-btn font-weight-bold">Add To Cart</a>
+
     </div>
     {% endfor %}
   
@@ -142,15 +149,12 @@
       <a href="{% url 'EShop:productdetail' p.slug %}">
         <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 10rem; object-fit: contain;"
           alt="product image">
-        <div class="card-body" style="height: 15rem;">
-          <h5 class="card-title text-dark" style="height: 10rem;">{{ p.title}}</h5>
-          <!-- <p class="card-text" >Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p> -->
-          <!-- <div style="height: 5rem;">
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div> -->
+        <div class="card-body" style="height: 10rem;">
+          <h5 class="card-title text-dark">{{ p.title}}</h5>
         </div>
       </a>
+      <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;"
+        class="btn-center btn addtocart-btn font-weight-bold">Add To Cart</a>
     </div>
     {% endfor %}
   

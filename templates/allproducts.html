@@ -38,9 +38,9 @@ ALL Products
                 <img class="img-fluid card-img-top" src="{{ p.image.url }}" style="height: 8rem; object-fit: contain;"
                     alt="product image">
                 <div class="card-body p0 mt-4" style="height:5rem;">
-                    <h5 class="card-title text-dark p0" style="height: 7rem;">{{ p.title|truncatewords:8}}</h5>
+                    <h5 class="card-title text-dark p0 mx-2 " style="height: 7rem;">{{ p.title|truncatewords:8}}</h5>
                 </div>
-                    <p class="card-body p0 text-normal" style="height: 8rem;">
+                    <p class="card-body p0 text-normal mx-2" style="height: 8rem;">
                         {{p.description|truncatewords:20}}
                     </p>
                     <a href="{% url 'EShop:addtocart' p.id  %}" style="height: 5rem;" class="btn addtocart-btn">Add To Cart</a>

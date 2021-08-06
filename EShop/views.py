@@ -94,7 +94,8 @@ class AddToCartView(EcomMixin, TemplateView):
 
         # get product id from requested url
         product_id = self.kwargs['pro_id']
-        # get product
+
+        # get product by ID
         product_obj = Product.objects.get(id=product_id)
 
         # check if cart exixst
@@ -104,7 +105,7 @@ class AddToCartView(EcomMixin, TemplateView):
             this_product_in_cart = cart_obj.cartproduct_set.filter(
                 product=product_obj)
 
-            # check item alrady exixst in cart
+            # check item already exist in cart
             if this_product_in_cart.exists():
                 cartproduct = this_product_in_cart.last()
                 cartproduct.quantity += 1
@@ -144,7 +145,6 @@ class MyCartView(EcomMixin, TemplateView):
         else:
             cart = None
         context['cart'] = cart
-
         return context
 
 
@@ -179,7 +179,6 @@ class ManageCartView(EcomMixin, View):
             cart_obj.save()
 
             cp_obj.delete()
-
         else:
             pass
 
@@ -209,7 +208,6 @@ class CheckOutView(EcomMixin, CreateView):
         if request.user.is_authenticated and request.user.customer:
             pass
         else:
-            # return redirect('checkout')
             return redirect("/login/?next=/Checkout/")
         return super().dispatch(request, *args, **kwargs)
 
@@ -253,8 +251,8 @@ class CustomerRegistrationView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
 
-    # when you are ordering  product but you not the register user,
-    # So this method will help you to redirecting you to the same page after registertion.
+    # NOt logged in user,
+    # So this method will help you to redirecting you to the same page after registration.
     def get_success_url(self):
         if 'next' in self.request.GET:
             next_url = self.request.GET.get('next')
@@ -476,13 +474,3 @@ class AdminProductCreateView(AdminRequiredMixin, CreateView):
             PI = ProductImage.objects.create(product=prdt, image=i)
             PI.save()
         return super().form_valid(form)
-
-    # def MyProductForm(self, request):
-    #     ProductFormSet = formset_factory(ProductForm, extra=3)
-    #     if request.method == 'POST':
-    #         formset = ProductFormSet(request.POST, request.FILES)
-    #         if formset.is_valid():
-    #             formset.save()
-    #         else:
-    #             formset = ProductFormSet()
-    #     return render(self.request, self.template_name, {'form': formset})
